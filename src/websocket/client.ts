@@ -3,6 +3,11 @@ import ConnectionsService from '../services/ConnectionsService';
 import UsersService from '../services/UsersService';
 import MessagesService from '../services/MessagesService';
 
+interface Params {
+  text: string;
+  email: string;
+}
+
 io.on('connection', socket => {
   const connectionsService = new ConnectionsService();
   const usersService = new UsersService();
@@ -10,7 +15,7 @@ io.on('connection', socket => {
 
   socket.on('client_first_access', async (params) => {
     const socket_id = socket.id;
-    const { text, email } = params;
+    const { text, email } = params as Params;
 
     let user_id = null;
     const userAlreadyExists = await usersService.findByEmail(email);
