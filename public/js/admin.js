@@ -1,15 +1,15 @@
 const socket = io();
 let connectionsUsers = [];
 
-socket.on('admin_list_all_users', connections => {
+socket.on('admin_show_all_users', connections => {
   connectionsUsers = connections;
 
-  document.getElementById('list_users').innerHTML = '';
+  document.getElementById('show_users').innerHTML = '';
   let template = document.getElementById('template').innerHTML;
 
   connections.forEach(connection => {
     const rendered = Mustache.render(template, { email: connection.user.email, id: connection.socket_id });
-    document.getElementById('list_users').innerHTML += rendered;
+    document.getElementById('show_users').innerHTML += rendered;
   });
 });
 
@@ -26,7 +26,7 @@ function call(id) {
 
   socket.emit('admin_user_in_support', params);
 
-  socket.emit('admin_list_messages_by_user', params, messages => {
+  socket.emit('admin_show_messages_by_user', params, messages => {
     const divMessages = document.getElementById(`allMessages${connection.user_id}`);
 
     messages.forEach(message => {

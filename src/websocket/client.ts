@@ -44,5 +44,9 @@ io.on('connection', socket => {
     }
 
     await messagesService.create({ text, user_id });
+
+    const allMessages = await messagesService.showByUser(user_id);
+
+    socket.emit('client_show_all_messages', allMessages);
   });
 });
