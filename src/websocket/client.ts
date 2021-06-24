@@ -48,6 +48,10 @@ io.on('connection', socket => {
     const allMessages = await messagesService.showByUser(user_id);
 
     socket.emit('client_show_all_messages', allMessages);
+
+    const allUsers = await connectionsService.findAllWithoutAdmin();
+
+    io.emit('admin_show_all_users', allUsers);
   });
 
   socket.on('client_send_to_admin', async (params) => {

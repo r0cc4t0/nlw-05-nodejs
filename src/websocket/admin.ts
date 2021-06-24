@@ -27,4 +27,14 @@ io.on('connection', async (socket) => {
 
     io.to(socket_id).emit('admin_send_to_client', { text, socket_id: socket.id });
   });
+
+  socket.on('admin_user_in_support', async (params) => {
+    const { user_id } = params;
+
+    await connectionsService.updateAdminID(user_id, socket.id);
+
+    const allConnectionsWithoutAdmin = await connectionsService.findAllWithoutAdmin();
+
+    io.emit('admin_show_all_users', allConnectionsWithoutAdmin);
+  });
 });
